@@ -1,0 +1,6 @@
+logLevel: none,backfill-oracle-worker=debug
+image: switchboardlabs/backfill-oracle-worker:dev-RC_11_15_23_03_16
+rpcUrl: https://api.devnet.solana.com
+pythRpcUrl: https://hermes.pyth.network
+payerSecret: "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+programId: 47TbQfJvZKWe1g5EkRPtpjjtuU9tXbkw5Bf5Cuec3vfd

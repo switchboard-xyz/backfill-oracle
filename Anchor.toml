@@ -1,0 +1,21 @@
+[toolchain]
+
+[features]
+seeds = true
+skip-lint = false
+
+[programs.localnet]
+backfill_oracle_program = "3aiTRX5dhvWfgKa1kNwqF97jpGukMyphpj7UTcWmWfvV"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "Devnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+create_order = "tsx ./scripts/create_order.ts"
+init = "tsx ./scripts/init.ts"
+metrics = "tsx ./scripts/metrics.ts"
+test = "pnpm exec ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"

@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backfill-oracle-worker
+  labels:
+    app: backfill-oracle-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backfill-oracle-worker
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: backfill-oracle-worker
+        should_scrape: scrape
+    spec:
+      hostNetwork: true
+      containers:
+        - env:
+            - name: RUST_LOG
+              value: {{ .Values.logLevel | default "info" }}
+            - name: RUST_BACKTRACE
+              value: {{ .Values.debug | default "1" | quote }}
+            - name: RPC_URL
+              value: {{ .Values.rpcUrl }}
+            - name: PYTH_RPC_URL
+              value: {{ .Values.pythRpcUrl }}
+            - name: PROGRAM_ID
+              value: {{ .Values.programId }}
+            - name: PAYER_SECRET
+              value: {{ .Values.payerSecret | quote }}
+          image: {{ .Values.image | default "switchboardlabs/backfill-oracle-worker:latest" }}
+          name: backfill-oracle-worker
+          imagePullPolicy: Always
+          ports:
+            - name: metrics
+              containerPort: 8080
+          securityContext:
+            privileged: true
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2Gi
+              sgx.intel.com/epc: 10485760
+              sgx.intel.com/enclave: 1
+              sgx.intel.com/provision: 1
+            requests:
+              cpu: 1250m
+              memory: 1Gi
+              sgx.intel.com/epc: 10485760
+              sgx.intel.com/enclave: 1
+              sgx.intel.com/provision: 1
+          volumeMounts:
+            - name: var-run-aesmd
+              mountPath: /var/run/aesmd
+            - name: dev-sgx-enclave
+              mountPath: /dev/sgx_enclave
+            - name: dev-sgx-provision
+              mountPath: /dev/sgx_provision
+      volumes:
+        - name: var-run-aesmd
+          hostPath:
+            path: /var/run/aesmd/
+        - name: dev-sgx-enclave
+          hostPath:
+            path: /dev/sgx_enclave
+        - name: dev-sgx-provision
+          hostPath:
+            path: /dev/sgx_provision

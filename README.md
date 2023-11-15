@@ -18,11 +18,12 @@ Switchboard Workers are still in development.
 The following are benchmarks collected on devnet while running the Switchboard
 worker inside of an SGX enclave:
 
-| Throughput  | Latency                   |
-| ----------- | ------------------------- |
-| 1.7 req/sec | 2.95 seconds (7.84 slots) |
-| 2.7 req/sec | 3.03 seconds (8.23 slots) |
-| 7.7 req/sec | 3.67 seconds (9.81 slots) |
+| Throughput  | Latency                    |
+| ----------- | -------------------------- |
+| 1.7 req/sec | 2.95 seconds (7.84 slots)  |
+| 2.7 req/sec | 3.03 seconds (8.23 slots)  |
+| 7.7 req/sec | 3.67 seconds (9.81 slots)  |
+| 8.4 req/sec | 3.80 seconds (10.51 slots) |
 
 **NOTE:** This implementation uses Pyth's Hermes REST endpoint. Using a
 websocket to retrieve Pyth prices will provide better performance over polling.
